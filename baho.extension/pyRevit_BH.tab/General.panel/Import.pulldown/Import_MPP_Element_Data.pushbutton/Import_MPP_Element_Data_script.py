@@ -31,7 +31,6 @@ from net.sf import mpxj
 from Autodesk.Revit.DB import BuiltInCategory, ElementId
 from Autodesk.Revit.DB import FilteredElementCollector as Fec
 
-from rph import param
 from rpw import db, doc, ui
 
 
@@ -44,19 +43,23 @@ from rpw import db, doc, ui
 # DONE apply user choice
 # DONE early user feedback
 # DONE add repo to installer
-# TODO vendor-in rph lib
+# DONE vendor-in rph modules
 # TODO check why docstring does not seem to work
 
 
 # rph.utils.exit_on_error
 def exit_on_error(message):
-    """
-    Exits current script with provided message.
-    :param message:
-    :return:
-    """
     print("ERROR: {}".format(message))
     sys.exit()
+
+
+def set_param_value(elem, param_name, value, param=None):
+    if not param:
+        param = elem.LookupParameter(param_name)
+    if param:
+        param.Set(value)
+    else:
+        print("param not found: {}".format(param_name))
 
 
 def get_built_in_categories_by_id():
@@ -197,7 +200,7 @@ reader = mpxj.reader.UniversalProjectReader()
 project = reader.read(str(mpp_path))
 tasks = project.getTasks()
 task_list = []
-tasks_by_sheet_number = {}
+# tasks_by_sheet_number = {}
 tasks_by_task_type_by_designation = {
     "construction": {},
     "demolition"  : {},
@@ -218,8 +221,8 @@ for task in tasks:
         tasks_by_task_type_by_designation["construction"][project_task.designation] = project_task
     elif project_task.task_type.lower() in spelling_variations["demolition"]:
         tasks_by_task_type_by_designation["demolition"  ][project_task.designation] = project_task
-    if project_task.sheet_number:
-        tasks_by_sheet_number[project_task.sheet_number] = project_task
+    # if project_task.sheet_number:
+    #     tasks_by_sheet_number[project_task.sheet_number] = project_task
     # for i in range(1,13):
     #    text = task.getText(i)
     #    if text:
@@ -434,10 +437,10 @@ with db.Transaction("set_mpp_element_params"):
                 demolition_start_date   = getattr(demolition_task  , "start_date", None) or 999998
                 demolition_end_date     = getattr(demolition_task  , "end_date"  , None) or 999999
 
-                param.set_val(element, construction_start_param_name, construction_start_date)
-                param.set_val(element, construction_end_param_name, construction_end_date)
-                param.set_val(element, demolition_start_param_name, demolition_start_date)
-                param.set_val(element, demolition_fin_param_name, demolition_end_date)
+                set_param_value(element, construction_start_param_name, construction_start_date)
+                set_param_value(element, construction_end_param_name  , construction_end_date)
+                set_param_value(element, demolition_start_param_name  , demolition_start_date)
+                set_param_value(element, demolition_fin_param_name    , demolition_end_date)
 
                 category_params_written_count += 1
 
