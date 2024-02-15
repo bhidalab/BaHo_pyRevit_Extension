@@ -19,6 +19,9 @@ import os
 from pathlib import Path
 
 import sys
+
+from System.Diagnostics import Stopwatch
+
 sys.path.append(r"C:\ProgramData\baho_pyrevit_extension\mpxj_dot_net.lib\src.net\lib\net45")
 # ^^ using mpxj version: 12.7.0
 import clr
@@ -28,7 +31,7 @@ from net.sf import mpxj
 from Autodesk.Revit.DB import BuiltInCategory, ElementId
 from Autodesk.Revit.DB import FilteredElementCollector as Fec
 
-from rph import param, utils
+from rph import param
 from rpw import db, doc, ui
 
 
@@ -43,6 +46,17 @@ from rpw import db, doc, ui
 # DONE add repo to installer
 # TODO vendor-in rph lib
 # TODO check why docstring does not seem to work
+
+
+# rph.utils.exit_on_error
+def exit_on_error(message):
+    """
+    Exits current script with provided message.
+    :param message:
+    :return:
+    """
+    print("ERROR: {}".format(message))
+    sys.exit()
 
 
 def get_built_in_categories_by_id():
@@ -113,13 +127,13 @@ def parse_project_info_param_config(param_name):
     if config_txt:
         mpp_dir = Path(config_txt)
         if not mpp_dir.exists():
-            utils.exit_on_error(
+            exit_on_error(
                 "mpp directory not found / accessible: '{}'!".format(
                     mpp_dir,
                 )
             )
         return mpp_dir
-    utils.exit_on_error("mpp directory not specified!")
+    exit_on_error("mpp directory not specified!")
 
 
 def get_latest_mpp(mpp_dir):
@@ -229,7 +243,8 @@ if user_designation_choice == all_chosen:
     for designation in designation_choices[1:]:
         print(designation)
 
-stopwatch = utils.start_script_timer()
+stopwatch = Stopwatch()
+stopwatch.Start()
 
 #for t in task_list:
 #    #print(t.id, " desig:", t.designation, " type:", t.task_type, " start:", t.start_date, " end:", t.end_date)
@@ -254,7 +269,6 @@ stopwatch = utils.start_script_timer()
 # (5, ' desig:', 'B_P1_IN_1000', ' type:', u'D\xe9molition', ' start:', 2021-11-22, ' end:', 2021-12-08)
 
 
-# ::_Required_SP_:: T:Text; TI:Instance; G:Other; C:Walls; SPG:GENERAL
 designation_param_name = "GLS-PHA_Désignation"
 
 construction_start_param_name = "GLS-PHA_Construction-début"
@@ -396,7 +410,10 @@ with db.Transaction("set_mpp_element_params"):
             # print(35 * "-")
             # print(elem.Id)
 
-            element_designation = param.get_val(element, designation_param_name)
+            element_designation_param = element.LookupParameter(designation_param_name)
+            if not element_designation_param:
+                continue
+            element_designation = element_designation_param.AsString()
             # print(elem_designation)
             if not element_designation:
                 continue
@@ -431,4 +448,6 @@ with db.Transaction("set_mpp_element_params"):
 print(45 * "=")
 print("params_written_total_count: {}".format(params_written_total_count))
 
-utils.end_script_timer(stopwatch)
+stopwatch.Stop()
+print("_" * 45)
+print("{} ran in: {}".format(__file__, stopwatch.Elapsed))
