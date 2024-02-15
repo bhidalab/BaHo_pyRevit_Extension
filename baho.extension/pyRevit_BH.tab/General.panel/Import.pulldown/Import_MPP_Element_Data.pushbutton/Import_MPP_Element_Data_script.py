@@ -1,16 +1,17 @@
 # -*- coding=utf-8 -*-
 """
 Reads specified mpp*, matches task designation in mpp with
-rvt element parameter `GLS-PHA_Désignation` value and fills
+rvt element parameter "GLS-PHA_Designation" value and fills
 accordingly the element construction and demolition date
 parameters:
-"GLS-PHA_Construction-début"
+"GLS-PHA_Construction-debut"
 "GLS-PHA_Construction-fin"
-"GLS-PHA_Démolition-début"
-"GLS-PHA_Démolition-fin"
+"GLS-PHA_Demolition-debut"
+"GLS-PHA_Demolition-fin"
 Only for project are de Lausanne
 * specified mpp directory set in rvt project information
 parameter: "config_mpp_dir"
+example config: "d:\tmp\plan_4.0\"
 """
 import re
 from collections import namedtuple, defaultdict
@@ -41,6 +42,7 @@ from rpw import db, doc, ui
 # DONE early user feedback
 # DONE add repo to installer
 # TODO vendor-in rph lib
+# TODO check why docstring does not seem to work
 
 
 def get_built_in_categories_by_id():
@@ -96,7 +98,7 @@ def get_mpp_overview(mpp_path):
 
 
 def parse_project_info_param_config(param_name):
-    # example config: 'd:\tmp\plan_4.0\'
+    # example config: "d:\tmp\plan_4.0\"
     file_menu = False
     config_txt = ""
     config_param = doc.ProjectInformation.LookupParameter(param_name)
@@ -184,7 +186,7 @@ task_list = []
 tasks_by_sheet_number = {}
 tasks_by_task_type_by_designation = {
     "construction": {},
-    "demolition": {},
+    "demolition"  : {},
 }
 spelling_variations = {
     "construction": ("construction"),
@@ -201,7 +203,7 @@ for task in tasks:
     if   project_task.task_type.lower() in spelling_variations["construction"]:
         tasks_by_task_type_by_designation["construction"][project_task.designation] = project_task
     elif project_task.task_type.lower() in spelling_variations["demolition"]:
-        tasks_by_task_type_by_designation["demolition"][project_task.designation] = project_task
+        tasks_by_task_type_by_designation["demolition"  ][project_task.designation] = project_task
     if project_task.sheet_number:
         tasks_by_sheet_number[project_task.sheet_number] = project_task
     # for i in range(1,13):
@@ -216,7 +218,7 @@ designation_choices.insert(0, all_chosen)
 # print(designation_choices, type(designation_choices))
 
 user_designation_choice = ui.forms.SelectFromList(
-    title="Please choose designation for element data sync:",
+    title="Please choose 'designation' for element data sync:",
     options=designation_choices,
     sort=False,
     exit_on_close=True,
@@ -382,32 +384,32 @@ params_written_total_count = 0
 with db.Transaction("set_mpp_element_params"):
     for cat_id, cat_name in category_name_by_id.items():
         built_in_category = bic_categories_by_id[cat_id]
-        category_elems = Fec(doc).OfCategory(built_in_category).WhereElementIsNotElementType().ToElements()
-        element_count = len(category_elems)
+        category_elements = Fec(doc).OfCategory(built_in_category).WhereElementIsNotElementType().ToElements()
+        element_count = len(category_elements)
         category_params_written_count = 0
         if element_count == 0:
             continue
         print(45 * "-")
         print("\ncategory: {} - element_count: {}".format(cat_name, element_count))
 
-        for elem in category_elems:
+        for element in category_elements:
             # print(35 * "-")
             # print(elem.Id)
 
-            elem_designation = param.get_val(elem, designation_param_name)
+            element_designation = param.get_val(element, designation_param_name)
             # print(elem_designation)
-            if not elem_designation:
+            if not element_designation:
                 continue
             if user_designation_choice:
-                if not elem_designation == user_designation_choice:
+                if not element_designation == user_designation_choice:
                     # print("skipped: '{}' is not user chosen designation: {}".format(
                     #     elem_designation,
                     #     user_designation_choice,
                     # ))
                     continue
 
-            construction_task = tasks_by_task_type_by_designation["construction"].get(elem_designation)
-            demolition_task   = tasks_by_task_type_by_designation["demolition"  ].get(elem_designation)
+            construction_task = tasks_by_task_type_by_designation["construction"].get(element_designation)
+            demolition_task   = tasks_by_task_type_by_designation["demolition"  ].get(element_designation)
 
             if construction_task or demolition_task:
                 construction_start_date = getattr(construction_task, "start_date", None) or 0
@@ -415,10 +417,10 @@ with db.Transaction("set_mpp_element_params"):
                 demolition_start_date   = getattr(demolition_task  , "start_date", None) or 999998
                 demolition_end_date     = getattr(demolition_task  , "end_date"  , None) or 999999
 
-                param.set_val(elem, construction_start_param_name, construction_start_date)
-                param.set_val(elem, construction_end_param_name, construction_end_date)
-                param.set_val(elem, demolition_start_param_name, demolition_start_date)
-                param.set_val(elem, demolition_fin_param_name, demolition_end_date)
+                param.set_val(element, construction_start_param_name, construction_start_date)
+                param.set_val(element, construction_end_param_name, construction_end_date)
+                param.set_val(element, demolition_start_param_name, demolition_start_date)
+                param.set_val(element, demolition_fin_param_name, demolition_end_date)
 
                 category_params_written_count += 1
 
