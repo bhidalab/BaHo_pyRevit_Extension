@@ -32,6 +32,7 @@ from Autodesk.Revit.DB import BuiltInCategory, ElementId
 from Autodesk.Revit.DB import FilteredElementCollector as Fec
 from System.Diagnostics import Stopwatch
 
+from pyrevit import forms
 from rpw import db, doc, ui
 
 
@@ -234,13 +235,18 @@ designation_choices = [key for key in sorted(tasks_by_designation.keys()) if key
 designation_choices.insert(0, all_chosen)
 
 # print(designation_choices, type(designation_choices))
-
-user_designation_choice = ui.forms.SelectFromList(
-    title="Please choose 'designation' for element data sync:",
-    options=designation_choices,
-    sort=False,
-    exit_on_close=True,
+# user_designation_choice = ui.forms.SelectFromList(
+#     title="Please choose 'designation' for element data sync:",
+#     options=designation_choices,
+#     sort=False,
+#     exit_on_close=True,
+# )
+user_designation_choice = forms.SelectFromList.show(
+    designation_choices,
+    button_name="Please choose 'designation' for element data sync:",
 )
+if not user_designation_choice:
+    exit_on_error("no 'designation' was chosen.")
 print("user_designation_choice: {}".format(user_designation_choice))
 if user_designation_choice == all_chosen:
     user_designation_choice = None
