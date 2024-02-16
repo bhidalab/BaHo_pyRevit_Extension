@@ -17,19 +17,20 @@ import re
 from collections import namedtuple, defaultdict
 import os
 from pathlib import Path
-
 import sys
 
-from System.Diagnostics import Stopwatch
-
-sys.path.append(r"C:\ProgramData\baho_pyrevit_extension\mpxj_dot_net.lib\src.net\lib\net45")
+MPXJ_DOT_NET_LIB_PATH = r"C:\ProgramData\baho_pyrevit_extension\mpxj_dot_net.lib\src.net\lib\net45"
+if not MPXJ_DOT_NET_LIB_PATH in sys.path:
+    sys.path.append(MPXJ_DOT_NET_LIB_PATH)
 # ^^ using mpxj version: 12.7.0
 import clr
+clr.AddReference("rtfparserkit-1.16.0")
 clr.AddReference("mpxj")
 from net.sf import mpxj
 
 from Autodesk.Revit.DB import BuiltInCategory, ElementId
 from Autodesk.Revit.DB import FilteredElementCollector as Fec
+from System.Diagnostics import Stopwatch
 
 from rpw import db, doc, ui
 
@@ -44,7 +45,7 @@ from rpw import db, doc, ui
 # DONE early user feedback
 # DONE add repo to installer
 # DONE vendor-in rph modules
-# TODO check why docstring does not seem to work
+# DONE check why docstring does not seem to work -> make it ascii compatible
 
 
 # rph.utils.exit_on_error
