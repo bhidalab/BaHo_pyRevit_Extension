@@ -160,7 +160,7 @@ def get_latest_mpp(mpp_dir):
     # for k,v in found_mpps.items():
     #     print(k,v)
     latest_mpp = found_mpps[max(found_mpps)]
-    print("found latest mpp: {}".format(latest_mpp))
+    # print("found latest mpp: {}".format(latest_mpp))
     return latest_mpp
 
 
@@ -172,6 +172,7 @@ mpp_dir, mpp_path = parse_project_info_param_config(config_param_name)
 if not mpp_path:
     mpp_path = get_latest_mpp(mpp_dir)
 
+print("using mpp: {}".format(mpp_path))
 
 Task = namedtuple(
     typename="Task",
