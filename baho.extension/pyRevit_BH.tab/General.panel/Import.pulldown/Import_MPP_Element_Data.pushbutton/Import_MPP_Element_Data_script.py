@@ -135,10 +135,13 @@ def parse_project_info_param_config(param_name):
     if file_menu:
         config_txt = ui.forms.select_file()
     if config_txt:
-        mpp_dir = Path(config_txt)
-        if not mpp_dir.exists():
-            exit_on_error("mpp directory not found / accessible: '{}'!".format(mpp_dir))
-        return mpp_dir
+        mpp_node = Path(config_txt)
+        if not mpp_node.exists():
+            exit_on_error("mpp file/dir not found / accessible: '{}'!".format(mpp_node))
+        if mpp_node.is_file():
+            return None, mpp_node
+        if mpp_node.is_dir():
+            return mpp_dir, None
     exit_on_error("mpp directory not specified!")
 
 
@@ -164,7 +167,11 @@ def get_latest_mpp(mpp_dir):
 # ::_Required_SP_:: T:Text; TI:Instance; G:Data; C:ProjectInformation; SPG:GENERAL
 config_param_name = "config_mpp_dir"
 
-mpp_dir = parse_project_info_param_config(config_param_name)
+mpp_dir, mpp_path = parse_project_info_param_config(config_param_name)
+
+if not mpp_path:
+    mpp_path = get_latest_mpp(mpp_dir)
+
 
 Task = namedtuple(
     typename="Task",
@@ -196,7 +203,6 @@ field_name_by_id = {
     13: "titleblock_subtitle",
 }
 
-mpp_path = get_latest_mpp(mpp_dir)
 # task_list = get_mpp_overview(mpp_path)
 
 reader = mpxj.reader.UniversalProjectReader()
