@@ -47,6 +47,9 @@ from rpw import db, doc, ui
 # DONE add repo to installer
 # DONE vendor-in rph modules
 # DONE check why docstring does not seem to work -> make it ascii compatible
+# DONE add designation selector with filter and search
+# DONE pull common mpp functionality in lib
+# DONE when ctrl click use file picker dialog
 
 
 # rph.utils.exit_on_error
@@ -127,16 +130,14 @@ def parse_project_info_param_config(param_name):
         config_txt = config_param.AsString()
     if not config_txt:
         file_menu = True
+    if __shiftclick__:
+        file_menu = True
     if file_menu:
-        config_txt = ui.forms.select_folder()
+        config_txt = ui.forms.select_file()
     if config_txt:
         mpp_dir = Path(config_txt)
         if not mpp_dir.exists():
-            exit_on_error(
-                "mpp directory not found / accessible: '{}'!".format(
-                    mpp_dir,
-                )
-            )
+            exit_on_error("mpp directory not found / accessible: '{}'!".format(mpp_dir))
         return mpp_dir
     exit_on_error("mpp directory not specified!")
 
@@ -232,6 +233,7 @@ for task in tasks:
 
 all_chosen = "<all_of_the_below_designation>"
 designation_choices = [key for key in sorted(tasks_by_designation.keys()) if key]
+designation_count = len(designation_choices)
 designation_choices.insert(0, all_chosen)
 
 # print(designation_choices, type(designation_choices))
@@ -250,6 +252,7 @@ if not user_designation_choice:
 print("user_designation_choice: {}".format(user_designation_choice))
 if user_designation_choice == all_chosen:
     user_designation_choice = None
+    print("all following {} 'designation':".format(designation_count))
     for designation in designation_choices[1:]:
         print(designation)
 
