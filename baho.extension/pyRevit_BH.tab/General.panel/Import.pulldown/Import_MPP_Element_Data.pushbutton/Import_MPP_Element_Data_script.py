@@ -1,6 +1,6 @@
 # -*- coding=utf-8 -*-
 """
-Reads specified mpp*, matches task designation in mpp with
+Reads specified mpp (1), matches task designation in mpp with
 rvt element parameter "GLS-PHA_Designation" value and fills
 accordingly the element construction and demolition date
 parameters:
@@ -8,10 +8,13 @@ parameters:
 "GLS-PHA_Construction-fin"
 "GLS-PHA_Demolition-debut"
 "GLS-PHA_Demolition-fin"
-Only for project are de Lausanne
-* specified mpp directory set in rvt project information
+Note: Only for project Gare de Lausanne
+(1)
+* either specified mpp directory set in rvt project information
 parameter: "config_mpp_dir"
 example config: "d:\tmp\plan_4.0\"
+* or this button run with shift-click, which provides an
+ open file dialog.
 """
 import re
 from collections import namedtuple, defaultdict
