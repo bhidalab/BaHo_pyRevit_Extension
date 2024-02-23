@@ -19,7 +19,7 @@ example config: "d:\tmp\plan_4.0\"
 import re
 from collections import namedtuple, defaultdict
 import os
-from pathlib import Path
+import pathlib
 import sys
 
 MPXJ_DOT_NET_LIB_PATH = r"C:\ProgramData\baho_pyrevit_extension\mpxj_dot_net.lib\src.net\lib\net45"
@@ -138,12 +138,13 @@ def parse_project_info_param_config(param_name):
     if file_menu:
         config_txt = ui.forms.select_file()
     if config_txt:
-        mpp_node = Path(config_txt)
+        mpp_node = pathlib.Path(config_txt)
         if not mpp_node.exists():
             exit_on_error("mpp file/dir not found / accessible: '{}'!".format(mpp_node))
         if mpp_node.is_file():
             return None, mpp_node
         if mpp_node.is_dir():
+            mpp_dir = mpp_node
             return mpp_dir, None
     exit_on_error("mpp directory not specified!")
 
