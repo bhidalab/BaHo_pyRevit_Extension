@@ -17,7 +17,7 @@ example config: "d:\tmp\plan_4.0\"
  open file dialog.
 """
 import re
-from collections import namedtuple, defaultdict
+import collections
 import os
 import pathlib
 import sys
@@ -178,7 +178,7 @@ if not mpp_path:
 
 print("using mpp: {}".format(mpp_path))
 
-Task = namedtuple(
+Task = collections.namedtuple(
     typename="Task",
     field_names=[
         "id",
@@ -223,7 +223,7 @@ spelling_variations = {
     "construction": ("construction"),
     "demolition"  : ("demolition", "dèmolition", "démolition"),
 }
-tasks_by_designation = defaultdict(list)
+tasks_by_designation = collections.defaultdict(list)
 for task in tasks:
     # print(35 * "-")
     # print(task)
