@@ -95,24 +95,12 @@ print("using mpp: {}".format(mpp_path))
 
 Task = mpp.Task
 
-field_name_by_id = {
-     1: "designation",
-     2: "task_type",
-     3: "checked_by",
-     4: "sheet_number",
-     5: "version_number",
-     6: "version_date",
-     7: "plan_level",
-     9: "titleblock_title",
-    11: "zone_name",
-    13: "titleblock_subtitle",
-}
+field_name_by_id = mpp.TASK_FIELD_NAME_BY_ID
 
 # task_list = mpp.get_mpp_overview(mpp_path)
 
 tasks = mpp.get_task_from_mpp(mpp_path)
 task_list = []
-# tasks_by_sheet_number = {}
 tasks_by_task_type_by_designation = {
     "construction": {},
     "demolition"  : {},
@@ -133,8 +121,6 @@ for task in tasks:
         tasks_by_task_type_by_designation["construction"][project_task.designation] = project_task
     elif project_task.task_type.lower() in spelling_variations["demolition"]:
         tasks_by_task_type_by_designation["demolition"  ][project_task.designation] = project_task
-    # if project_task.sheet_number:
-    #     tasks_by_sheet_number[project_task.sheet_number] = project_task
     # for i in range(1,13):
     #    text = task.getText(i)
     #    if text:
