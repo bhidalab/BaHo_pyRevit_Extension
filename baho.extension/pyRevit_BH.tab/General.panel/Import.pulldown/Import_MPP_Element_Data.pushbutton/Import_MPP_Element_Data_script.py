@@ -37,6 +37,7 @@ from System.Diagnostics import Stopwatch
 
 from pyrevit import forms
 from rpw import db, doc, ui
+from vrph import param, utils
 
 
 # DONE get latest mpxj lib
@@ -53,21 +54,8 @@ from rpw import db, doc, ui
 # DONE add designation selector with filter and search
 # DONE pull common mpp functionality in lib
 # DONE when ctrl click use file picker dialog
-
-
-# rph.utils.exit_on_error
-def exit_on_error(message):
-    print("ERROR: {}".format(message))
-    sys.exit()
-
-
-def set_param_value(elem, param_name, value, param=None):
-    if not param:
-        param = elem.LookupParameter(param_name)
-    if param:
-        param.Set(value)
-    else:
-        print("param not found: {}".format(param_name))
+# TODO use vendor-in lib modules from rph to vrph to avoid code duplication with sync issues
+# TODO generate available docs
 
 
 def get_built_in_categories_by_id():
@@ -140,13 +128,13 @@ def parse_project_info_param_config(param_name):
     if config_txt:
         mpp_node = pathlib.Path(config_txt)
         if not mpp_node.exists():
-            exit_on_error("mpp file/dir not found / accessible: '{}'!".format(mpp_node))
+            utils.exit_on_error("mpp file/dir not found / accessible: '{}'!".format(mpp_node))
         if mpp_node.is_file():
             return None, mpp_node
         if mpp_node.is_dir():
             mpp_dir = mpp_node
             return mpp_dir, None
-    exit_on_error("mpp directory not specified!")
+    utils.exit_on_error("mpp directory not specified!")
 
 
 def get_latest_mpp(mpp_dir):
@@ -259,7 +247,7 @@ user_designation_choice = forms.SelectFromList.show(
     button_name="Please choose 'designation' for element data sync:",
 )
 if not user_designation_choice:
-    exit_on_error("no 'designation' was chosen.")
+    utils.exit_on_error("no 'designation' was chosen.")
 print("user_designation_choice: {}".format(user_designation_choice))
 if user_designation_choice == all_chosen:
     user_designation_choice = None
@@ -458,10 +446,10 @@ with db.Transaction("set_mpp_element_params"):
                 demolition_start_date   = getattr(demolition_task  , "start_date", None) or 999998
                 demolition_end_date     = getattr(demolition_task  , "end_date"  , None) or 999999
 
-                set_param_value(element, construction_start_param_name, construction_start_date)
-                set_param_value(element, construction_end_param_name  , construction_end_date)
-                set_param_value(element, demolition_start_param_name  , demolition_start_date)
-                set_param_value(element, demolition_fin_param_name    , demolition_end_date)
+                param.set_val(element, construction_start_param_name, construction_start_date)
+                param.set_val(element, construction_end_param_name  , construction_end_date)
+                param.set_val(element, demolition_start_param_name  , demolition_start_date)
+                param.set_val(element, demolition_fin_param_name    , demolition_end_date)
 
                 category_params_written_count += 1
 
