@@ -17,8 +17,7 @@ example config: "d:\tmp\plan_4.0\"
  open file dialog.
 """
 import collections
-import os
-import pathlib
+import pathlib2
 
 from Autodesk.Revit.DB import BuiltInCategory, ElementId
 from Autodesk.Revit.DB import FilteredElementCollector as Fec
@@ -72,7 +71,7 @@ def parse_project_info_param_config(param_name):
     if file_menu:
         config_txt = ui.forms.select_file()
     if config_txt:
-        mpp_node = pathlib.Path(config_txt)
+        mpp_node = pathlib2.Path(config_txt)
         if not mpp_node.exists():
             utils.exit_on_error("mpp file/dir not found / accessible: '{}'!".format(mpp_node))
         if mpp_node.is_file():
