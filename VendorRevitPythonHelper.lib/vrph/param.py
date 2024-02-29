@@ -6,7 +6,6 @@ import re
 from collections import namedtuple, defaultdict
 
 from rpw import doc
-import categ
 
 
 def print_param_mapping(param_dict, title="", verbose=True):
