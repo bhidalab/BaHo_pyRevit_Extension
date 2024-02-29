@@ -114,3 +114,17 @@ def get_mpp_overview(mpp_path):
         task_list.append(project_task)
         print(i, project_task)
     return task_list
+
+
+TASK_FIELD_NAME_BY_ID = {
+     1: "designation",
+     2: "task_type",
+     3: "checked_by",
+     4: "sheet_number",
+     5: "version_number",
+     6: "version_date",
+     7: "plan_level",
+     9: "titleblock_title",
+    11: "zone_name",
+    13: "titleblock_subtitle",
+}
