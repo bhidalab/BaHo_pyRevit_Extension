@@ -255,8 +255,7 @@ if user_designation_choice == all_chosen:
     for designation in designation_choices[1:]:
         print(designation)
 
-stopwatch = Stopwatch()
-stopwatch.Start()
+stopwatch = utils.start_script_timer()
 
 #for t in task_list:
 #    #print(t.id, " desig:", t.designation, " type:", t.task_type, " start:", t.start_date, " end:", t.end_date)
@@ -460,6 +459,4 @@ with db.Transaction("set_mpp_element_params"):
 print(45 * "=")
 print("params_written_total_count: {}".format(params_written_total_count))
 
-stopwatch.Stop()
-print("_" * 45)
-print("{} ran in: {}".format(__file__, stopwatch.Elapsed))
+utils.end_script_timer(stopwatch)
