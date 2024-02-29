@@ -16,7 +16,6 @@ example config: "d:\tmp\plan_4.0\"
 * or this button run with shift-click, which provides an
  open file dialog.
 """
-import re
 import collections
 import os
 import pathlib
@@ -94,32 +93,13 @@ def parse_project_info_param_config(param_name):
     utils.exit_on_error("mpp directory not specified!")
 
 
-def get_latest_file_in_dir_by_iso_date_and_extension(search_dir, extension):
-    print("searching for latest {} in directory: {}".format(extension, search_dir))
-    re_mpp_file_name = re.compile(r"^(?P<iso_date>\d{8}).*")
-    found_paths = {}
-    for node in search_dir.iterdir():
-        if not node.name.endswith(extension):
-            continue
-        if re.match(re_mpp_file_name, node.name):
-            # print(node)
-            found = re.findall(re_mpp_file_name, node.name)
-            if found:
-                found_paths[found[0]] = node
-    # for k,v in found_paths.items():
-    #     print(k,v)
-    latest_file = found_paths[max(found_paths)]
-    # print("found latest mpp: {}".format(latest_file))
-    return latest_file
-
-
 # ::_Required_SP_:: T:Text; TI:Instance; G:Data; C:ProjectInformation; SPG:GENERAL
 config_param_name = "config_mpp_dir"
 
 mpp_dir, mpp_path = parse_project_info_param_config(config_param_name)
 
 if not mpp_path:
-    mpp_path = get_latest_file_in_dir_by_iso_date_and_extension(mpp_dir, ".mpp")
+    mpp_path = utils.get_latest_file_in_dir_by_iso_date_and_extension(mpp_dir, ".mpp")
 
 print("using mpp: {}".format(mpp_path))
 
