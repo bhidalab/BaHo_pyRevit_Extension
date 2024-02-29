@@ -90,9 +90,9 @@ def parameter_binding_exists(param_name, as_instance_binding, category_id):
         skip = True
         item = param_binding_iter.Current
         type_inst = item.GetType().Name
-        if   type_inst == "InstanceBinding" and as_instance_binding == True:
+        if   type_inst == "InstanceBinding" and as_instance_binding is True:
             skip = False
-        elif type_inst == "TypeBinding"     and as_instance_binding == False:
+        elif type_inst == "TypeBinding"     and as_instance_binding is False:
             skip = False
         if skip:
             continue

@@ -3,7 +3,7 @@ import collections
 import sys
 
 MPXJ_DOT_NET_LIB_PATH = r"C:\ProgramData\baho_pyrevit_extension\mpxj_dot_net.lib\src.net\lib\net45"
-if not MPXJ_DOT_NET_LIB_PATH in sys.path:
+if MPXJ_DOT_NET_LIB_PATH not in sys.path:
     sys.path.append(MPXJ_DOT_NET_LIB_PATH)
 # ^^ using mpxj version: 12.7.0
 import clr
