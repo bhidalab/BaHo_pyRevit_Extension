@@ -19,16 +19,6 @@ example config: "d:\tmp\plan_4.0\"
 import collections
 import os
 import pathlib
-import sys
-
-MPXJ_DOT_NET_LIB_PATH = r"C:\ProgramData\baho_pyrevit_extension\mpxj_dot_net.lib\src.net\lib\net45"
-if not MPXJ_DOT_NET_LIB_PATH in sys.path:
-    sys.path.append(MPXJ_DOT_NET_LIB_PATH)
-# ^^ using mpxj version: 12.7.0
-import clr
-clr.AddReference("rtfparserkit-1.16.0")
-clr.AddReference("mpxj")
-from net.sf import mpxj
 
 from Autodesk.Revit.DB import BuiltInCategory, ElementId
 from Autodesk.Revit.DB import FilteredElementCollector as Fec
@@ -120,9 +110,7 @@ field_name_by_id = {
 
 # task_list = mpp.get_mpp_overview(mpp_path)
 
-reader = mpxj.reader.UniversalProjectReader()
-project = reader.read(str(mpp_path))
-tasks = project.getTasks()
+tasks = mpp.get_task_from_mpp(mpp_path)
 task_list = []
 # tasks_by_sheet_number = {}
 tasks_by_task_type_by_designation = {
