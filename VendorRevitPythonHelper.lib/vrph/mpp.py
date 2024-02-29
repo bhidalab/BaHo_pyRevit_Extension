@@ -105,15 +105,24 @@ def get_mpp_overview(mpp_path):
     """
     if not mpp_path.exists():
         print("mpp not found: ", mpp_path)
-    reader = mpxj.reader.UniversalProjectReader()
-    project = reader.read(str(mpp_path))
     task_list = []
-    tasks = project.getTasks()
+    tasks = get_task_from_mpp(mpp_path)
     for i, task in enumerate(tasks):
         project_task = convert_mpxj_task_to_sheet_info(task)
         task_list.append(project_task)
         print(i, project_task)
     return task_list
+
+
+def get_task_from_mpp(mpp_path):
+    """
+    Retrieve tasks from mpp file.
+    :param mpp_path:
+    :return:
+    """
+    reader = mpxj.reader.UniversalProjectReader()
+    project = reader.read(str(mpp_path))
+    return project.getTasks()
 
 
 TASK_FIELD_NAME_BY_ID = {
