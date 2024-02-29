@@ -53,7 +53,7 @@ from vrph import mpp, param, utils
 # DONE add designation selector with filter and search
 # DONE pull common mpp functionality in lib
 # DONE when ctrl click use file picker dialog
-# TODO use vendor-in lib modules from rph to vrph to avoid code duplication with sync issues
+# DONE use vendor-in lib modules from rph to vrph to avoid code duplication with sync issues
 # TODO generate available docs
 
 
@@ -65,48 +65,6 @@ def get_built_in_categories_by_id():
             # print(built_in_category)
             bic_categories_by_id[ElementId(built_in_category).IntegerValue] = built_in_category
     return bic_categories_by_id
-
-
-def get_date_truncated_iso_short(task_date):
-    if not task_date:
-        return ""
-    day   = str(task_date.getDayOfMonth()).zfill(2)
-    month = str(task_date.getMonthValue()).zfill(2)
-    year  = str(task_date.getYear())
-    truncated = "{}{}{}".format(year[-2:], month, day)
-    # iso_short = "{}{}{}".format(year, month, day)
-    # print("{} -> {}".format(iso_short, truncated))
-    return int(truncated)
-
-
-def convert_mpxj_task_to_task(task):
-    return Task(
-        id=task.getID().intValue() or -1,
-        name=task.getName(),
-        designation=task.getText(1) or "",
-        start_date=get_date_truncated_iso_short(task.getStart()),
-        end_date=get_date_truncated_iso_short(task.getFinish()),
-        sheet_number=task.getText(4) or "",
-        task_type=task.getText(2) or "",
-        zone_name=task.getText(11) or "",
-        version_number=task.getText(5) or "",
-        version_date=task.getText(6) or "",
-        mpp_task=task,
-    )
-
-
-def get_mpp_overview(mpp_path):
-    if not mpp_path.exists():
-        print("mpp not found: ", mpp_path)
-    reader = mpxj.reader.UniversalProjectReader()
-    project = reader.read(str(mpp_path))
-    task_list = []
-    tasks = project.getTasks()
-    for i, task in enumerate(tasks):
-        project_task = convert_mpxj_task_to_task(task)
-        task_list.append(project_task)
-        print(i, project_task)
-    return task_list
 
 
 def parse_project_info_param_config(param_name):
@@ -136,23 +94,23 @@ def parse_project_info_param_config(param_name):
     utils.exit_on_error("mpp directory not specified!")
 
 
-def get_latest_mpp(mpp_dir):
-    print("searching for latest mpp in directory: {}".format(mpp_dir))
+def get_latest_file_in_dir_by_iso_date_and_extension(search_dir, extension):
+    print("searching for latest {} in directory: {}".format(extension, search_dir))
     re_mpp_file_name = re.compile(r"^(?P<iso_date>\d{8}).*")
-    found_mpps = {}
-    for node in mpp_dir.iterdir():
-        if not node.name.endswith(".mpp"):
+    found_paths = {}
+    for node in search_dir.iterdir():
+        if not node.name.endswith(extension):
             continue
         if re.match(re_mpp_file_name, node.name):
             # print(node)
             found = re.findall(re_mpp_file_name, node.name)
             if found:
-                found_mpps[found[0]] = node
-    # for k,v in found_mpps.items():
+                found_paths[found[0]] = node
+    # for k,v in found_paths.items():
     #     print(k,v)
-    latest_mpp = found_mpps[max(found_mpps)]
-    # print("found latest mpp: {}".format(latest_mpp))
-    return latest_mpp
+    latest_file = found_paths[max(found_paths)]
+    # print("found latest mpp: {}".format(latest_file))
+    return latest_file
 
 
 # ::_Required_SP_:: T:Text; TI:Instance; G:Data; C:ProjectInformation; SPG:GENERAL
@@ -161,7 +119,7 @@ config_param_name = "config_mpp_dir"
 mpp_dir, mpp_path = parse_project_info_param_config(config_param_name)
 
 if not mpp_path:
-    mpp_path = get_latest_mpp(mpp_dir)
+    mpp_path = get_latest_file_in_dir_by_iso_date_and_extension(mpp_dir, ".mpp")
 
 print("using mpp: {}".format(mpp_path))
 
@@ -180,7 +138,7 @@ field_name_by_id = {
     13: "titleblock_subtitle",
 }
 
-# task_list = get_mpp_overview(mpp_path)
+# task_list = mpp.get_mpp_overview(mpp_path)
 
 reader = mpxj.reader.UniversalProjectReader()
 project = reader.read(str(mpp_path))
@@ -199,7 +157,7 @@ tasks_by_designation = collections.defaultdict(list)
 for task in tasks:
     # print(35 * "-")
     # print(task)
-    project_task = convert_mpxj_task_to_task(task)
+    project_task = mpp.convert_mpxj_task_to_task(task)
     # print(project_task)
     task_list.append(project_task)
     tasks_by_designation[project_task.designation].append(project_task)
@@ -240,29 +198,6 @@ if user_designation_choice == all_chosen:
         print(designation)
 
 stopwatch = utils.start_script_timer()
-
-#for t in task_list:
-#    #print(t.id, " desig:", t.designation, " type:", t.task_type, " start:", t.start_date, " end:", t.end_date)
-#    if all([t.id, t.designation, t.task_type, t.start_date, t.end_date]):
-#        print(t.id, " desig:", t.designation, " type:", t.task_type, " start:", t.start_date, " end:", t.end_date)
-
-# print("mpp file: {}".format(mpp_path))
-# print("found {} tasks in {} task designations".format(len(task_list), len(tasks_by_designation)))
-# for designation in sorted(tasks_by_designation):
-#     tasks = tasks_by_designation[designation]
-#     task_count = len(tasks)
-#     print(35*"-")
-#     print(designation, task_count)
-#     if task_count < 11:
-#         for task in tasks:
-#             print(task.id, task.task_type, task.start_date, task.end_date)
-
-## .net mpxj - sample data from 20201026-P1.mpp by @TGN
-# (1, ' desig:', 'B_P1_IN_1000', ' type:', 'Construction',   ' start:', 2021-09-20, ' end:', 2021-10-05)
-# (2, ' desig:', 'B_P1_PI_1000', ' type:', 'Construction',   ' start:', 2021-10-05, ' end:', 2021-10-20)
-# (4, ' desig:', 'B_P1_DC_1000', ' type:', 'Construction',   ' start:', 2021-11-05, ' end:', 2021-11-22)
-# (5, ' desig:', 'B_P1_IN_1000', ' type:', u'D\xe9molition', ' start:', 2021-11-22, ' end:', 2021-12-08)
-
 
 designation_param_name = "GLS-PHA_Désignation"
 
