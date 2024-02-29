@@ -33,11 +33,10 @@ from net.sf import mpxj
 
 from Autodesk.Revit.DB import BuiltInCategory, ElementId
 from Autodesk.Revit.DB import FilteredElementCollector as Fec
-from System.Diagnostics import Stopwatch
 
 from pyrevit import forms
 from rpw import db, doc, ui
-from vrph import param, utils
+from vrph import mpp, param, utils
 
 
 # DONE get latest mpxj lib
@@ -166,22 +165,7 @@ if not mpp_path:
 
 print("using mpp: {}".format(mpp_path))
 
-Task = collections.namedtuple(
-    typename="Task",
-    field_names=[
-        "id",
-        "name",
-        "designation",
-        "start_date",
-        "end_date",
-        "sheet_number",
-        "task_type",
-        "zone_name",
-        "version_number",
-        "version_date",
-        "mpp_task",
-    ],
-)
+Task = mpp.Task
 
 field_name_by_id = {
      1: "designation",
