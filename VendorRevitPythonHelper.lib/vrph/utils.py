@@ -6,6 +6,7 @@ from System.Diagnostics import Stopwatch
 import datetime
 import inspect
 import sys
+import re
 
 
 def exit_on_error(message):
@@ -56,3 +57,31 @@ def today_iso_short_date():
     :return:
     """
     return datetime.datetime.now().date().isoformat().replace("-", "")
+
+
+def get_latest_file_in_dir_by_iso_date_and_extension(search_dir, extension):
+    """
+    Attempts to retrieve the file with the latest iso short YYYYMMDD timestamp as file name start
+    and specified extension. Exits on no file candidates found.
+    :param search_dir:
+    :param extension:
+    :return:
+    """
+    print("searching for latest {} in directory: {}".format(extension, search_dir))
+    re_mpp_file_name = re.compile(r"^(?P<iso_date>\d{8}).*")
+    found_paths = {}
+    for node in search_dir.iterdir():
+        if not node.name.endswith(extension):
+            continue
+        if re.match(re_mpp_file_name, node.name):
+            # print(node)
+            found = re.findall(re_mpp_file_name, node.name)
+            if found:
+                found_paths[found[0]] = node
+    if not found_paths:
+        exit_on_error("no file paths found in {} matching search criteria.".format(search_dir))
+    # for k,v in found_paths.items():
+    #     print(k,v)
+    latest_file = found_paths[max(found_paths)]
+    # print("found latest file: {}".format(latest_file))
+    return latest_file
