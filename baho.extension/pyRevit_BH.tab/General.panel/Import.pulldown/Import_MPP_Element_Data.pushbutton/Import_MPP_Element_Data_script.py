@@ -66,7 +66,7 @@ def parse_project_info_param_config(param_name):
         config_txt = config_param.AsString()
     if not config_txt:
         file_menu = True
-    if __shiftclick__:
+    if __shiftclick__:  # noqa: F821
         file_menu = True
     if file_menu:
         config_txt = ui.forms.select_file()
