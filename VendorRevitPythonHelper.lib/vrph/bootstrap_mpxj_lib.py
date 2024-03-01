@@ -14,7 +14,7 @@ import utils
 
 def check_if_lib_files_download_is_required(target_dir, file_list):
     existing_files = []
-    print("check if mpxj lib download is required..")
+    print("INFO: check if mpxj lib download is required..")
     for node in target_dir.iterdir():
         if node.is_file():
             existing_files.append(node.name)
@@ -25,10 +25,10 @@ def check_if_lib_files_download_is_required(target_dir, file_list):
         if file_name in existing_files:
             found_count += 1
     if found_count == required_count:
-        print("OK: no, all required dlls are present")
+        print("INFO: ok, all required dlls are present")
         return False
     else:
-        print("Yes, only found {} of {} dlls".format(found_count, required_count))
+        print("INFO download required: not all dlls were found")
         return True
 
 
@@ -43,7 +43,7 @@ def check_repo_server_available(url):
 
 
 def download_lib(url, target_path):
-    print("attempting to download (~140MB): {}".format(url))
+    print("INFO: attempting to download (~140MB): {}".format(url))
     response = requests.get(url)
     if response.status_code == 200:
         with open(str(target_path), mode="wb") as zip_file:
@@ -52,36 +52,38 @@ def download_lib(url, target_path):
         utils.exit_on_error("error_code: {} unable to download: {}".format(response.status_code, url))
     if not target_path.exists():
         utils.exit_on_error("download not successful - aborting. please retry later.")
-    print("{} downloaded successfully to: {}".format(lib_zip_name, target_path))
+    print("INFO: {} downloaded successfully to: {}".format(lib_zip_name, target_path))
 
 
 def extract_zip_to(zip_path, target_dir, file_names=None):
-    print("unzipping {}".format(zip_path))
+    print("INFO: unzipping {}".format(zip_path))
 
+    required_count = len(file_names)
     found_count = 0
+    current = 0
+
     with ZipFile(str(zip_path)) as zip_file:
         if not file_names:
             zip_file.extractall(path=str(target_dir))
         else:
             for entry in zip_file.namelist():
                 if entry in file_names:
-                    print("extracting: {}".format(entry))
                     found_count += 1
+                    current += 1
+                    print("INFO: extracting {} of {}: {}".format(current, required_count, entry))
                     zip_file.extract(entry, str(target_dir))
-                #else:
-                #    print(entry)
-            print("extracted: {}".format(found_count))
+            print("INFO: extracted: {}".format(found_count))
 
     if not net45_from_zip_dir.exists():
         utils.exit_on_error("unzipping not successful - aborting. please retry later.")
 
 
 def transfer_lib_components(extracted_dir, target_dir):
-    print("transferring required dlls:")
+    print("INFO: transferring required dlls:")
     for node in extracted_dir.iterdir():
         source = node
         target = target_dir
-        print("copying: {}".format(str(source)))
+        print("INFO: copying: {}".format(str(source)))
         # print(str(source), str(target))
         # shutil.copy()
         shutil.move(str(source), str(target))
@@ -100,8 +102,21 @@ def remove_dir(target):
 
 
 def clean_up_temp_files(temp_dir):
-    print("cleaning up: {}".format(temp_dir))
+    print("INFO: cleaning up temp files: {}".format(temp_dir))
     remove_dir(temp_dir)
+
+
+def run_bootstrap():
+    if not unzip_dir.exists():
+        unzip_dir.mkdir()
+    download_required = check_if_lib_files_download_is_required(lib_target_dir_path, unzip_file_names)
+    if download_required:
+        server_available = check_repo_server_available(REPO_SERVER)
+        if server_available:
+            download_lib(URL, lib_target_zip_path)
+            extract_zip_to(lib_target_zip_path, unzip_dir, unzip_file_names)
+            transfer_lib_components(net45_from_zip_dir, lib_target_dir_path)
+            clean_up_temp_files(unzip_dir)
 
 
 # DONE check if lib already exists
@@ -173,16 +188,3 @@ lib_target_dir_path = repo_root_path / "mpxj_dot_net.lib" / "src.net" / "lib" / 
 unzip_dir = lib_target_dir_path / "tmp"
 lib_target_zip_path = unzip_dir / lib_zip_name
 net45_from_zip_dir = unzip_dir / "mpxj" / "src.net" / "lib" / "net45"
-
-if not unzip_dir.exists():
-    unzip_dir.mkdir()
-
-download_required = check_if_lib_files_download_is_required(lib_target_dir_path, unzip_file_names)
-
-if download_required:
-    server_available = check_repo_server_available(REPO_SERVER)
-    if server_available:
-        download_lib(URL, lib_target_zip_path)
-        extract_zip_to(lib_target_zip_path, unzip_dir, unzip_file_names)
-        transfer_lib_components(net45_from_zip_dir, lib_target_dir_path)
-        clean_up_temp_files(unzip_dir)
