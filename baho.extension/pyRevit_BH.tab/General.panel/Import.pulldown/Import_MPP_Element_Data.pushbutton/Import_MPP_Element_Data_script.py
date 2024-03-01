@@ -159,7 +159,7 @@ construction_end_param_name   = "GLS-PHA_Construction-fin"
 demolition_start_param_name   = "GLS-PHA_Démolition-début"
 demolition_fin_param_name     = "GLS-PHA_Démolition-fin"
 
-category_name_by_id = {
+category_name_by_ids = {
     -2008013: "Air Terminals",
     -2009630: "Analytical Beams",
     -2009633: "Analytical Braces",
@@ -279,7 +279,7 @@ bic_categories_by_id = get_built_in_categories_by_id()
 params_written_total_count = 0
 
 with db.Transaction("set_mpp_element_params"):
-    for cat_id, cat_name in category_name_by_id.items():
+    for cat_id, cat_name in category_name_by_ids.items():
         built_in_category = bic_categories_by_id[cat_id]
         category_elements = Fec(doc).OfCategory(built_in_category).WhereElementIsNotElementType().ToElements()
         element_count = len(category_elements)
