@@ -22,7 +22,9 @@ from Autodesk.Revit.DB import FilteredElementCollector as Fec
 
 from pyrevit import forms
 from rpw import db, doc, ui, uidoc
-from vrph import mpp, param, utils
+from vrph import utils
+utils.check_mpxj_lib_available()
+from vrph import mpp, param
 
 
 # DONE read mpp
