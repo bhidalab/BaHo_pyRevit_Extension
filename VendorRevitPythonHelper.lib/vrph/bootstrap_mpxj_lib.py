@@ -2,10 +2,8 @@
 ensures availability of mpxj .net library.
 """
 import shutil
-import sys
-sys.path.append(r"C:\ProgramData\pyrevit_4.8.14\site-packages")
 import pathlib2
-from zipfile import ZipFile
+import zipfile
 
 import requests
 
@@ -28,12 +26,13 @@ def check_if_lib_files_download_is_required(target_dir, file_list):
         print("INFO: ok, all required dlls are present")
         return False
     else:
-        print("INFO download required: not all dlls were found")
+        print("INFO:"
+              " download required: not all dlls were found")
         return True
 
 
 def check_repo_server_available(url):
-    print("checking availability of server: {}".format(url))
+    print("INFO: checking availability of server: {}".format(url))
     resp = requests.get(url)
     status = resp.status_code
     if not status == 200:
@@ -62,7 +61,7 @@ def extract_zip_to(zip_path, target_dir, file_names=None):
     found_count = 0
     current = 0
 
-    with ZipFile(str(zip_path)) as zip_file:
+    with zipfile.ZipFile(str(zip_path)) as zip_file:
         if not file_names:
             zip_file.extractall(path=str(target_dir))
         else:
@@ -118,14 +117,6 @@ def run_bootstrap():
             transfer_lib_components(net45_from_zip_dir, lib_target_dir_path)
             clean_up_temp_files(unzip_dir)
 
-
-# DONE check if lib already exists
-# DONE check server connection available
-# DONE download full lib
-# DONE extract needed dlls
-# DONE only place needed dlls
-# DONE clean up
-# DONE clean up zip
 
 unzip_file_names = (
     "mpxj/src.net/lib/net45/commons-collections4-4.4.dll",
