@@ -14,6 +14,7 @@ import utils
 
 def check_if_lib_files_download_is_required(target_dir, file_list):
     existing_files = []
+    print("check if mpxj lib download is required..")
     for node in target_dir.iterdir():
         if node.is_file():
             existing_files.append(node.name)
@@ -24,10 +25,10 @@ def check_if_lib_files_download_is_required(target_dir, file_list):
         if file_name in existing_files:
             found_count += 1
     if found_count == required_count:
-        print("OK: all required dlls are present")
+        print("OK: no, all required dlls are present")
         return False
     else:
-        print("only found {} of {}".format(found_count, required_count))
+        print("Yes, only found {} of {} dlls".format(found_count, required_count))
         return True
 
 
