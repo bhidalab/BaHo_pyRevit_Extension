@@ -8,6 +8,7 @@ Contains the reimplementation of the C# addon "Plan 4.0".
 Tested on and written for
 * rvt 2023, 2024
 * pyRevit 4.8.14
+* mpxj library 12.7.0
 
 ## Development
 ### Tooling
