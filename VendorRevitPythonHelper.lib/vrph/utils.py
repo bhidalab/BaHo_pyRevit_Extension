@@ -5,6 +5,7 @@ from System.Diagnostics import Stopwatch
 
 import datetime
 import inspect
+import pathlib2
 import sys
 import re
 
@@ -87,16 +88,18 @@ def get_latest_file_in_dir_by_iso_date_and_extension(search_dir, extension):
     return latest_file
 
 
-def check_mpxj_lib_available(mpxj_dir):
+def check_mpxj_lib_available():
     """
     Check if mpxj lib is installed. If not error out and
     inform the user to run mpxj boostrap.
-    :param mpxj_dir:
     :return:
     """
     existing_files = []
     print("INFO: check if mpxj lib download is required..")
-    for node in mpxj_dir.iterdir():
+    this_script_path = pathlib2.Path(__file__)
+    repo_root_path = this_script_path.parent.parent.parent
+    lib_target_dir_path = repo_root_path / "mpxj_dot_net.lib" / "src.net" / "lib" / "net45"
+    for node in lib_target_dir_path.iterdir():
         if node.is_file():
             existing_files.append(node.name)
     required_count = len(REQUIRED_DLLS["mpxj"])
