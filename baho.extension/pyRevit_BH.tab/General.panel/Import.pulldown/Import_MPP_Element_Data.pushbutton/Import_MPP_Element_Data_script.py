@@ -24,7 +24,9 @@ from Autodesk.Revit.DB import FilteredElementCollector as Fec
 
 from pyrevit import forms
 from rpw import db, doc, ui
-from vrph import mpp, param, utils
+from vrph import utils
+utils.check_mpxj_lib_available()
+from vrph import mpp, param
 
 
 # DONE get latest mpxj lib
@@ -42,7 +44,7 @@ from vrph import mpp, param, utils
 # DONE pull common mpp functionality in lib
 # DONE when ctrl click use file picker dialog
 # DONE use vendor-in lib modules from rph to vrph to avoid code duplication with sync issues
-# TODO generate available docs
+# DONE generate available docs
 
 
 def get_built_in_categories_by_id():
