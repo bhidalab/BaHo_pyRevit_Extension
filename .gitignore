@@ -28,6 +28,9 @@ Icon?
 # ignore local config file
 *.ini
 
+# ignore dlls
+*.dll
+
 # Release and installer files
 release/pyrevit*cache
 release/Prerequisites/*
