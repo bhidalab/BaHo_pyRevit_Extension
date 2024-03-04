@@ -1,4 +1,4 @@
-# BaHo_pyRe vit_Extension
+# BaHo_pyRevit_Extension
 
 ## About
 Basler & Hofmann pyRevit addon running on top of [pyRevit](http://gitlab.ideas.baho.ch/bim/revit/pyrevit/pyrevit)
@@ -18,8 +18,10 @@ Tested on and written for
 * external users:
   * install: rvt 2023 or 2024
   * install: pyRevit 4.8.14
+  * download and unpack BaHo_pyRevit_Extension to: `c:\programdata\baho_pyrevit_extension`
   * in `pyRevit / Settings` add BaHo_pyRevit_Extension under `Custom Extension Directories` <br>
     preferred location for BaHo_pyRevit_Extension: `c:\programdata\baho_pyrevit_extension`
+  * run the bootstrap script `info / Bootstrap_mpxj` to supply the required mpxj library
 
 ## Development
 ### Tooling
