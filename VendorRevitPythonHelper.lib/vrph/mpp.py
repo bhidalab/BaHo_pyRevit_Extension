@@ -106,7 +106,7 @@ def get_mpp_overview(mpp_path):
     if not mpp_path.exists():
         print("mpp not found: ", mpp_path)
     task_list = []
-    tasks = get_task_from_mpp(mpp_path)
+    tasks = get_tasks_from_mpp(mpp_path)
     for i, task in enumerate(tasks):
         project_task = convert_mpxj_task_to_sheet_info(task)
         task_list.append(project_task)
@@ -114,7 +114,7 @@ def get_mpp_overview(mpp_path):
     return task_list
 
 
-def get_task_from_mpp(mpp_path):
+def get_tasks_from_mpp(mpp_path):
     """
     Retrieve tasks from mpp file.
     :param mpp_path:

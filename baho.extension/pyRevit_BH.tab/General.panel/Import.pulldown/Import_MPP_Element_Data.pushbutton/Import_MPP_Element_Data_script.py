@@ -100,7 +100,7 @@ field_name_by_id = mpp.TASK_FIELD_NAME_BY_ID
 
 # task_list = mpp.get_mpp_overview(mpp_path)
 
-tasks = mpp.get_task_from_mpp(mpp_path)
+tasks = mpp.get_tasks_from_mpp(mpp_path)
 task_list = []
 tasks_by_task_type_by_designation = {
     "construction": {},

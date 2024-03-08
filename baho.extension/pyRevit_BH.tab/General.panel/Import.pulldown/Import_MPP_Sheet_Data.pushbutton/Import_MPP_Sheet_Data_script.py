@@ -105,7 +105,7 @@ print("using mpp: {}".format(mpp_path))
 
 # mpp_path = pathlib2.Path(r"d:\tmp\plan_4.0\20201026-P1.mpp")
 
-tasks = [mpp.convert_mpxj_task_to_sheet_info(task) for task in mpp.get_task_from_mpp(str(mpp_path))]
+tasks = [mpp.convert_mpxj_task_to_sheet_info(task) for task in mpp.get_tasks_from_mpp(str(mpp_path))]
 
 # tasks = mpp.get_mpp_overview(mpp_path)
 sheet_info_by_sheet_number = {task.sheet_number:task for task in tasks if task.sheet_number}
