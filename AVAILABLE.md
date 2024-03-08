@@ -1,6 +1,6 @@
 
 # List of available BaHo_pyRevit_Extension scripts:
-2024-03-01
+2024-03-08
 
 ## General
 
@@ -29,7 +29,7 @@ example config: "d:\tmp\plan_4.0\"
 
 ###### required parameters:
 
-` Name: config_mpp_dir` <br>
+` Name: pyrevit_config_mpp_dir` <br>
 `Categories: ProjectInformation` <br>
 `Group_parameter_under: Data` <br>
 `Shared_Parameter_Group: GENERAL` <br>
@@ -56,7 +56,7 @@ example config: "d:\tmp\plan_4.0\"
 
 ###### required parameters:
 
-` Name: config_mpp_dir` <br>
+` Name: pyrevit_config_mpp_dir` <br>
 `Categories: ProjectInformation` <br>
 `Group_parameter_under: Data` <br>
 `Shared_Parameter_Group: GENERAL` <br>
@@ -67,7 +67,7 @@ example config: "d:\tmp\plan_4.0\"
 ### Sheets
 
 
-#### Duplicate_Sheet_According_To_MPP_Data
+#### Duplicate_Sheet_Into_MPP_Sheet_Series
 
 Duplicates current active sheet with placed views
 according to sheet parameter "GLS-PHA_Désignation"
@@ -95,4 +95,15 @@ example config: "d:\tmp\plan_4.0\"
 `Shared_Parameter_Group: GENERAL` <br>
 `Type_Instance: Instance` <br>
 `Type_of_parameter: Text` <br>
+
+
+## info
+
+
+### info
+
+
+#### Bootstrap_mpxj
+
+Runs the bootstrap process for retrieving mpxj libs needed for reading .mpp files.
 
