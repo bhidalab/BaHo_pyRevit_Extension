@@ -85,7 +85,7 @@ def parse_project_info_param_config(param_name):
 
 
 # ::_Required_SP_:: T:Text; TI:Instance; G:Data; C:ProjectInformation; SPG:GENERAL
-config_param_name = "config_mpp_dir"
+config_param_name = "pyrevit_config_mpp_dir"
 
 mpp_dir, mpp_path = parse_project_info_param_config(config_param_name)
 
