@@ -9,7 +9,7 @@ Tested on and written for
 * rvt 2023, 2024
 * [pyRevit](http://gitlab.ideas.baho.ch/bim/revit/pyrevit/pyrevit) 4.8.14 <br>
   recommended install location: `c:\programdata\pyrevit_4.8.14`
-* mpxj library 12.7.0 <br>
+* [mpxj](https://www.mpxj.org/) library 12.7.0 <br>
   not provided in this repo, use bundled pyRevit `BaHo_pyRevit_Extension / info / Bootstrap_mpxj`
 
 ## Installation
@@ -22,7 +22,7 @@ Tested on and written for
   * download and unpack BaHo_pyRevit_Extension to: `c:\programdata\baho_pyrevit_extension`
   * in `pyRevit / Settings` add BaHo_pyRevit_Extension under `Custom Extension Directories` <br>
     preferred location for BaHo_pyRevit_Extension: `c:\programdata\baho_pyrevit_extension`
-  * run the bootstrap script `info / Bootstrap_mpxj` to supply the required mpxj library
+  * run the bootstrap script `info / Bootstrap_mpxj` to supply the required [mpxj](https://www.mpxj.org/) library
 
 ## Development
 ### Tooling
