@@ -10,7 +10,7 @@ Note: Only for project Gare de Lausanne
 (1)
 * either specified mpp directory set in rvt project information
 parameter: "pyrevit_config_mpp_dir"
-example config: "d:\tmp\plan_4.0\"
+example config: "d:\tmp\plan_4.0"
 * or this button run with shift-click, which provides an
  open file dialog.
 """
@@ -25,16 +25,6 @@ from rpw import db, doc, ui, uidoc
 from vrph import utils
 utils.check_mpxj_lib_available()
 from vrph import mpp, param
-
-
-# DONE read mpp
-# DONE PlanInfo(plan_number, sheet_name, const_start, const_end)
-# DONE dict map: plan_number: PlanInfo
-# DONE write data to matching sheets
-# DONE move mpp_reading into rph lib
-# DONE add confirmation dialogue
-# DONE do not write sheet name if sheet name in mpp is empty or one char long
-# DONE add timer
 
 
 def ensure_correct_selection():
@@ -62,7 +52,7 @@ def ensure_correct_selection():
 
 
 def parse_project_info_param_config(param_name):
-    # example config: "d:\tmp\plan_4.0\"
+    # example config: "d:\tmp\plan_4.0"
     file_menu = False
     config_txt = ""
     config_param = doc.ProjectInformation.LookupParameter(param_name)

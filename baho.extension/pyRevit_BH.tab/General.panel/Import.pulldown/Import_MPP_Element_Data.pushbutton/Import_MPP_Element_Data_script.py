@@ -12,7 +12,7 @@ Note: Only for project Gare de Lausanne
 (1)
 * either specified mpp directory set in rvt project information
 parameter: "pyrevit_config_mpp_dir"
-example config: "d:\tmp\plan_4.0\"
+example config: "d:\tmp\plan_4.0"
 * or this button run with shift-click, which provides an
  open file dialog.
 """
@@ -40,7 +40,7 @@ def get_built_in_categories_by_id():
 
 
 def parse_project_info_param_config(param_name):
-    # example config: "d:\tmp\plan_4.0\"
+    # example config: "d:\tmp\plan_4.0"
     file_menu = False
     config_txt = ""
     config_param = doc.ProjectInformation.LookupParameter(param_name)
