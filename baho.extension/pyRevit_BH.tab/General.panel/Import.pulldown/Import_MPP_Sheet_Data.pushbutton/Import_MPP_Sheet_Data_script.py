@@ -9,7 +9,7 @@ sheet_name,
 Note: Only for project Gare de Lausanne
 (1)
 * either specified mpp directory set in rvt project information
-parameter: "config_mpp_dir"
+parameter: "pyrevit_config_mpp_dir"
 example config: "d:\tmp\plan_4.0\"
 * or this button run with shift-click, which provides an
  open file dialog.

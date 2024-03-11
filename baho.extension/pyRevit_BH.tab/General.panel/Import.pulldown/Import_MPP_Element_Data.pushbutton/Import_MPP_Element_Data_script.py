@@ -11,7 +11,7 @@ parameters:
 Note: Only for project Gare de Lausanne
 (1)
 * either specified mpp directory set in rvt project information
-parameter: "config_mpp_dir"
+parameter: "pyrevit_config_mpp_dir"
 example config: "d:\tmp\plan_4.0\"
 * or this button run with shift-click, which provides an
  open file dialog.
@@ -27,24 +27,6 @@ from rpw import db, doc, ui
 from vrph import utils
 utils.check_mpxj_lib_available()
 from vrph import mpp, param
-
-
-# DONE get latest mpxj lib
-# DONE add reference to mpxj lib
-# DONE add timer
-# DONE find latest mpp by proj info param path
-# DONE if param not existing show file picker
-# DONE user choice to use all designation or only selected
-# DONE apply user choice
-# DONE early user feedback
-# DONE add repo to installer
-# DONE vendor-in rph modules
-# DONE check why docstring does not seem to work -> make it ascii compatible
-# DONE add designation selector with filter and search
-# DONE pull common mpp functionality in lib
-# DONE when ctrl click use file picker dialog
-# DONE use vendor-in lib modules from rph to vrph to avoid code duplication with sync issues
-# DONE generate available docs
 
 
 def get_built_in_categories_by_id():
