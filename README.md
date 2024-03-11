@@ -1,13 +1,13 @@
 # BaHo_pyRevit_Extension
 
 ## About
-Basler & Hofmann pyRevit addon running on top of [pyRevit](http://gitlab.ideas.baho.ch/bim/revit/pyrevit/pyrevit) 4.8.14
+Basler & Hofmann pyRevit addon running on top of [pyRevit](http://gitlab.ideas.baho.ch/bim/revit/pyrevit/pyrevit) 4.8.14 <br>
 Contains the partial reimplementation of C# addon "Plan 4.0".
 
 ## Dependencies
 Tested on and written for
 * rvt 2023, 2024
-* pyRevit 4.8.14 <br>
+* [pyRevit](http://gitlab.ideas.baho.ch/bim/revit/pyrevit/pyrevit) 4.8.14 <br>
   recommended install location: `c:\programdata\pyrevit_4.8.14`
 * mpxj library 12.7.0 <br>
   not provided in this repo, use bundled pyRevit `BaHo_pyRevit_Extension / info / Bootstrap_mpxj`
@@ -17,7 +17,7 @@ Tested on and written for
   use our regular [pyRevit_Installer](http://gitlab.ideas.baho.ch/bim/revit/pyrevit/pyrevit_installer) or ask @FBE
 * external users:
   * install: rvt 2023 or 2024
-  * install: pyRevit 4.8.14
+  * install: [pyRevit](http://gitlab.ideas.baho.ch/bim/revit/pyrevit/pyrevit) 4.8.14
     recommended install location: `c:\programdata\pyrevit_4.8.14`
   * download and unpack BaHo_pyRevit_Extension to: `c:\programdata\baho_pyrevit_extension`
   * in `pyRevit / Settings` add BaHo_pyRevit_Extension under `Custom Extension Directories` <br>
