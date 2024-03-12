@@ -141,7 +141,7 @@ designation_param_name = "GLS-PHA_Désignation"
 construction_start_param_name = "GLS-PHA_Construction-début"
 construction_end_param_name   = "GLS-PHA_Construction-fin"
 demolition_start_param_name   = "GLS-PHA_Démolition-début"
-demolition_fin_param_name     = "GLS-PHA_Démolition-fin"
+demolition_end_param_name     = "GLS-PHA_Démolition-fin"
 
 category_name_by_ids = {
     -2008013: "Air Terminals",
@@ -304,7 +304,7 @@ with db.Transaction("set_mpp_element_params"):
                 param.set_val(element, construction_start_param_name, construction_start_date)
                 param.set_val(element, construction_end_param_name  , construction_end_date)
                 param.set_val(element, demolition_start_param_name  , demolition_start_date)
-                param.set_val(element, demolition_fin_param_name    , demolition_end_date)
+                param.set_val(element, demolition_end_param_name, demolition_end_date)
 
                 category_params_written_count += 1
 
