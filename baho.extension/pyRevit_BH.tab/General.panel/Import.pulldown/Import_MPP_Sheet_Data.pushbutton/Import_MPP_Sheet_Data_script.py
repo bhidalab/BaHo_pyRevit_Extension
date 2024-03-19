@@ -107,7 +107,7 @@ stopwatch = utils.start_script_timer()
 written_dates = 0
 written_names = 0
 
-with db.Transaction("write_sheet_data_from_mpp"):
+with db.Transaction("Import_MPP_Sheet_Data"):
     print(45 * "=")
     print("processing {} sheets: ".format(len(sheets_to_process)))
     for sheet in sheets_to_process:
