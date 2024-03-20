@@ -78,6 +78,7 @@ def parse_project_info_param_config(param_name):
     utils.exit_on_error("mpp directory not specified!")
 
 
+__fullframeengine__ = True
 construction_start_param_name = "GLS-PHA_Construction-début"
 construction_end_param_name   = "GLS-PHA_Construction-fin"
 

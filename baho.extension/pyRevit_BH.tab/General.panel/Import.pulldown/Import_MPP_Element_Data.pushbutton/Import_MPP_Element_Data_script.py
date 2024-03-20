@@ -66,6 +66,8 @@ def parse_project_info_param_config(param_name):
     utils.exit_on_error("mpp directory not specified!")
 
 
+__fullframeengine__ = True
+
 # ::_Required_SP_:: T:Text; TI:Instance; G:Data; C:ProjectInformation; SPG:GENERAL
 config_param_name = "pyrevit_config_mpp_dir"
 
