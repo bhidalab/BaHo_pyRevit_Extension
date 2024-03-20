@@ -5,7 +5,7 @@ from System.Diagnostics import Stopwatch
 
 import datetime
 import inspect
-import pathlib2
+import pathlib
 import sys
 import re
 
@@ -30,15 +30,16 @@ def start_script_timer():
     return stopwatch
 
 
-def end_script_timer(stopwatch):
+def end_script_timer(stopwatch, file_name=None):
     """
     Stops given stopwatch and shows script run time with given script name.
     :param stopwatch:
     :param file_name:
     :return:
     """
-    calling_script_path = inspect.stack()[1][1]
-    file_name = os.path.split(calling_script_path)[1]
+    if not file_name:
+        calling_script_path = inspect.stack()[1][1]
+        file_name = os.path.split(calling_script_path)[1]
     stopwatch.Stop()
     print("_" * 45)
     print("{} ran in: {}".format(file_name, stopwatch.Elapsed))
@@ -96,7 +97,7 @@ def check_mpxj_lib_available():
     """
     existing_files = []
     print("INFO: check if mpxj lib download is required..")
-    this_script_path = pathlib2.Path(__file__)
+    this_script_path = pathlib.Path(__file__)
     repo_root_path = this_script_path.parent.parent.parent
     lib_target_dir_path = repo_root_path / "mpxj_dot_net.lib" / "src.net" / "lib" / "net45"
     for node in lib_target_dir_path.iterdir():
