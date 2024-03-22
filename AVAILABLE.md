@@ -1,6 +1,6 @@
 
 # List of available BaHo_pyRevit_Extension scripts:
-2024-03-13
+2024-03-22
 
 ## General
 
@@ -99,22 +99,26 @@ example config: "d:\tmp\plan_4.0"
 
 #### Set_Sheets_Views_Filter_Overrides
 
-Set sheet views filter overrides for views of sheets selected in project browser,
-which are not excluded from filter overrides by parameter: "TBD_param_name".
+Applies filter overrides for views of the selected sheets in project browser.
+( unless they are excluded from filter overrides by parameter: "GLS-PHA_Designation",
+with value set to either "sansFiltres" or "exclude_view_from_script_filters").
 The filters are generated according to the sheets parameters:
 GLS-PHA_Construction-debut,
 GLS-PHA_Construction-fin,
 and the project information parameter "pyrevit_config_project_start".
 The filters are combined with filter overrides from view template:
-"Z_GLS_PHA_filter_overrides_template" to hide or colorize by their respective
-element data parameters. The set of filter overrides are:
-Z_GLS_PHA_401020_deja_demoli
-Z_GLS_PHA_441122_pas_encore_construit
-Z_GLS_PHA_401020_en_construction
-Z_GLS_PHA_441122_en_demolition
-Z_GLS_PHA_301020_existant_definitiv
-Z_GLS_PHA_401020_441122_deja_construit
+"Z_GLS_PHA_filter_overrides_template" to hide or colorize elements on views
+according to their respective parameter values.
+The set of filter overrides are:
+Z_GLS_PHA_401020_deja_demoli_template
+Z_GLS_PHA_441122_pas_encore_construit_template
+Z_GLS_PHA_401020_en_construction_template
+Z_GLS_PHA_441122_en_demolition_template
+Z_GLS_PHA_301020_existant_definitiv_template
+Z_GLS_PHA_401020_441122_deja_construit_template
+in the order as set in the template view template.
 At the end a clean-up for all unused script filters is run.
+Note: Only for project Gare de Lausanne
 
 
 ###### required parameters:
