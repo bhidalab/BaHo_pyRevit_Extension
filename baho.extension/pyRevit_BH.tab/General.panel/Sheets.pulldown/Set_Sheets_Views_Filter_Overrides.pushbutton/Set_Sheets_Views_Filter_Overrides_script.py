@@ -19,6 +19,7 @@ Z_GLS_PHA_301020_existant_definitiv_template
 Z_GLS_PHA_401020_441122_deja_construit_template
 in the order as set in the template view template.
 At the end a clean-up for all unused script filters is run.
+Note: Only for project Gare de Lausanne
 """
 import collections
 import re
