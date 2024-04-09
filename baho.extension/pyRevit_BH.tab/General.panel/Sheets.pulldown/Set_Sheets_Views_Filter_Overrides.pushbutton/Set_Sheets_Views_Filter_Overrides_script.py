@@ -34,8 +34,9 @@ from Autodesk.Revit.DB import BuiltInCategory as Bic
 from Autodesk.Revit.DB import FilteredElementCollector as Fec
 from System.Collections.Generic import List
 
-from rph import param, utils
-from rpw import db, doc, uidoc
+from pyrevit.revit import doc, uidoc
+from pyrevit.revit.db import transaction
+from vrph import param, utils
 
 
 StateInfo = collections.namedtuple(
@@ -401,7 +402,7 @@ if len(template_filter_state_infos) != len(state_infos):
     utils.exit_on_error("not all required view template filter overrides found")
 
 
-with db.Transaction("Set_Sheets_Views_Filter_Overrides"):
+with transaction.Transaction("Set_Sheets_Views_Filter_Overrides", doc=doc):
     print(35 * "=")
     sheet_rule_dates = {
         "project_start": project_start,
@@ -474,7 +475,7 @@ with db.Transaction("Set_Sheets_Views_Filter_Overrides"):
                 # print("will add filter override: ", state_name, filter_override_info)
                 set_view_filter_and_overrides(view, filter_override_info)
 
-with db.Transaction("Remove_Unused_Script_Filters"):
+with transaction.Transaction("Remove_Unused_Script_Filters", doc=doc):
    remove_unused_view_filters(all_views, all_filters, re_script_filter_name)
 
 utils.end_script_timer(stopwatch, file_name=__file__)
