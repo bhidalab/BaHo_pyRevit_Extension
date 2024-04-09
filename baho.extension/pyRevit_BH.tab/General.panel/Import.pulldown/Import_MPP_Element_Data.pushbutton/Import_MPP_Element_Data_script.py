@@ -23,7 +23,8 @@ from Autodesk.Revit.DB import BuiltInCategory, ElementId
 from Autodesk.Revit.DB import FilteredElementCollector as Fec
 
 from pyrevit import forms
-from rpw import db, doc, ui
+from pyrevit.revit import doc, uidoc
+from pyrevit.revit.db import transaction
 from vrph import utils
 utils.check_mpxj_lib_available()
 from vrph import mpp, param
@@ -53,7 +54,7 @@ def parse_project_info_param_config(param_name):
     if __shiftclick__:  # noqa: F821
         file_menu = True
     if file_menu:
-        config_txt = ui.forms.select_file()
+        config_txt = forms.pick_file()
     if config_txt:
         mpp_node = pathlib2.Path(config_txt)
         if not mpp_node.exists():
@@ -264,7 +265,7 @@ bic_categories_by_id = get_built_in_categories_by_id()
 
 params_written_total_count = 0
 
-with db.Transaction("set_mpp_element_params"):
+with transaction.Transaction("set_mpp_element_params", doc=doc):
     for cat_id, cat_name in category_name_by_ids.items():
         built_in_category = bic_categories_by_id[cat_id]
         category_elements = Fec(doc).OfCategory(built_in_category).WhereElementIsNotElementType().ToElements()
