@@ -23,7 +23,9 @@ from Autodesk.Revit.DB import SheetDuplicateOption
 from Autodesk.Revit.DB import BuiltInCategory as Bic
 from Autodesk.Revit.DB import FilteredElementCollector as Fec
 
-from rpw import db, doc, ui
+from pyrevit import forms
+from pyrevit.revit import doc, uidoc
+from pyrevit.revit.db import transaction
 from vrph import utils
 utils.check_mpxj_lib_available()
 from vrph import mpp, param
@@ -43,7 +45,7 @@ def parse_project_info_param_config(param_name):
     if __shiftclick__:  # noqa: F821
         file_menu = True
     if file_menu:
-        config_txt = ui.forms.select_file()
+        config_txt = forms.pick_file()
     if config_txt:
         mpp_node = pathlib2.Path(config_txt)
         if not mpp_node.exists():
@@ -108,7 +110,7 @@ mpp_tasks = [mpp.convert_mpxj_task_to_task(task) for task in mpp.get_tasks_from_
 
 found_matching_mpp_sheets_count = 0
 
-with db.Transaction("duplicate_sheet_into_mpp_sheet_series"):
+with transaction.Transaction("duplicate_sheet_into_mpp_sheet_series", doc=doc):
     for task in mpp_tasks:
         if not task.name:
             continue
@@ -140,4 +142,4 @@ with db.Transaction("duplicate_sheet_into_mpp_sheet_series"):
 
 print("count of created matching mpp sheets: {}".format(found_matching_mpp_sheets_count))
 
-utils.end_script_timer(stopwatch)
+utils.end_script_timer(stopwatch, file_name=__file__)
