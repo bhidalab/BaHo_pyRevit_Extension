@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-import os.path
-
-from System.Diagnostics import Stopwatch
-
 import datetime
 import inspect
+import os
 import pathlib
-import sys
 import re
+import sys
+
+from System.Diagnostics import Stopwatch
 
 
 def exit_on_error(message):

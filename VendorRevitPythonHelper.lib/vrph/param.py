@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+import collections
+import re
+
 from Autodesk.Revit.DB import BuiltInParameter as Bip, StorageType, Parameter, ElementId
 from System import Convert
 
-import re
-from collections import namedtuple, defaultdict
-
-from rpw import doc
+from pyrevit.revit import doc
 
 
 def print_param_mapping(param_dict, title="", verbose=True):
@@ -40,7 +40,7 @@ def get_param_binding_entries_by_category_id():
     Retrieve an overview map of parameter bindings in the document by category id.
     Returns: dict
     """
-    param_binding_entries_by_cat_id = defaultdict(dict)
+    param_binding_entries_by_cat_id = collections.defaultdict(dict)
     pb_iter = doc.ParameterBindings.ForwardIterator()
     pb_iter.Reset()
     while pb_iter.MoveNext():
@@ -347,6 +347,6 @@ if RVT_MAJ_VERSION > 2022:
 
 bip_map_reverse_map = {v: k for k, v in bip_map.items()}
 
-ParamInfo = namedtuple("ParamInfo", "type_param name value dtype has_value shared read_only param")
+ParamInfo = collections.namedtuple("ParamInfo", "type_param name value dtype has_value shared read_only param")
 TITLE_INST_PARAMS = "INSTANCE PARAMETERS" + 50 * "_"
 TITLE_TYPE_PARAMS = "TYPE PARAMETERS    " + 50 * "_"
