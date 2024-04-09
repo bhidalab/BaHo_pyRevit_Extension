@@ -318,4 +318,4 @@ with transaction.Transaction("set_mpp_element_params", doc=doc):
 print(45 * "=")
 print("params_written_total_count: {}".format(params_written_total_count))
 
-utils.end_script_timer(stopwatch)
+utils.end_script_timer(stopwatch, file_name=__file__)

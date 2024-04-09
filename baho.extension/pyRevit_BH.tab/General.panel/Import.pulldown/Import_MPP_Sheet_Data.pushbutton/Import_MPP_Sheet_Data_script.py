@@ -21,7 +21,8 @@ from Autodesk.Revit.DB import BuiltInCategory as Bic
 from Autodesk.Revit.DB import FilteredElementCollector as Fec
 
 from pyrevit import forms
-from rpw import db, doc, ui, uidoc
+from pyrevit.revit import doc, uidoc
+from pyrevit.revit.db import transaction
 from vrph import utils
 utils.check_mpxj_lib_available()
 from vrph import mpp, param
@@ -65,7 +66,7 @@ def parse_project_info_param_config(param_name):
     if __shiftclick__:  # noqa: F821
         file_menu = True
     if file_menu:
-        config_txt = ui.forms.select_file()
+        config_txt = forms.pick_file()
     if config_txt:
         mpp_node = pathlib2.Path(config_txt)
         if not mpp_node.exists():
@@ -108,7 +109,7 @@ stopwatch = utils.start_script_timer()
 written_dates = 0
 written_names = 0
 
-with db.Transaction("Import_MPP_Sheet_Data"):
+with transaction.Transaction("Import_MPP_Sheet_Data", doc=doc):
     print(45 * "=")
     print("processing {} sheets: ".format(len(sheets_to_process)))
     for sheet in sheets_to_process:
@@ -140,4 +141,4 @@ print(45 * "=")
 print("written {} sheet dates.".format(written_dates))
 print("written {} sheet names.".format(written_names))
 
-utils.end_script_timer(stopwatch)
+utils.end_script_timer(stopwatch, file_name=__file__)
