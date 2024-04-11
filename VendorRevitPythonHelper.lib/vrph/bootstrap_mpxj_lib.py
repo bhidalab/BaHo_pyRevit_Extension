@@ -2,7 +2,7 @@
 ensures availability of mpxj .net library.
 """
 import shutil
-import pathlib2
+import pathlib
 import zipfile
 
 import requests
@@ -173,7 +173,7 @@ URL = "https://github.com/joniles/mpxj/releases/download/v12.7.0/mpxj-12.7.0.zip
 REPO_SERVER  = URL.rsplit("/", 6)[0]
 lib_zip_name = URL.split("/")[-1]
 
-THIS_SCRIPT = pathlib2.Path(__file__)
+THIS_SCRIPT = pathlib.Path(__file__)
 repo_root_path = THIS_SCRIPT.parent.parent.parent
 lib_target_dir_path = repo_root_path / "mpxj_dot_net.lib" / "src.net" / "lib" / "net45"
 unzip_dir = lib_target_dir_path / "tmp"
