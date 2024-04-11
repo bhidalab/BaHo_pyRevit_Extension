@@ -5,6 +5,7 @@ import os
 import pathlib
 import re
 import sys
+import webbrowser
 
 from System.Diagnostics import Stopwatch
 
@@ -86,6 +87,27 @@ def get_latest_file_in_dir_by_iso_date_and_extension(search_dir, extension):
     latest_file = found_paths[max(found_paths)]
     # print("found latest file: {}".format(latest_file))
     return latest_file
+
+
+def open_in_webbrowser(url):
+    """
+    Opens given url in webbrowser set in env var WEBBROWSER or default webbrowser.
+    :param url:
+    :return:
+    """
+    print("INFO: opening: {}".format(url))
+    if "WEBBROWSER" in os.environ:
+        browser_path = os.environ["WEBBROWSER"]
+        browser_name = os.path.basename(browser_path).split(".")[0]
+        assert os.path.exists(browser_path)
+        webbrowser.register(
+            browser_name,
+            None,
+            webbrowser.BackgroundBrowser(str(browser_path)),
+        )
+        webbrowser.get(browser_name).open(url)
+    else:
+        webbrowser.open(url)
 
 
 def check_mpxj_lib_available():
