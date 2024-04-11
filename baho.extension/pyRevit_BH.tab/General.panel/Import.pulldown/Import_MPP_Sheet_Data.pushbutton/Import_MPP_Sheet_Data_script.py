@@ -14,7 +14,7 @@ example config: "d:\tmp\plan_4.0"
 * or this button run with shift-click, which provides an
  open file dialog.
 """
-import pathlib2
+import pathlib
 import sys
 
 from Autodesk.Revit.DB import BuiltInCategory as Bic
@@ -68,7 +68,7 @@ def parse_project_info_param_config(param_name):
     if file_menu:
         config_txt = forms.pick_file()
     if config_txt:
-        mpp_node = pathlib2.Path(config_txt)
+        mpp_node = pathlib.Path(config_txt)
         if not mpp_node.exists():
             utils.exit_on_error("mpp file/dir not found / accessible: '{}'!".format(mpp_node))
         if mpp_node.is_file():
@@ -95,7 +95,7 @@ if not mpp_path:
 
 print("using mpp: {}".format(mpp_path))
 
-# mpp_path = pathlib2.Path(r"d:\tmp\plan_4.0\20201026-P1.mpp")
+# mpp_path = pathlib.Path(r"d:\tmp\plan_4.0\20201026-P1.mpp")
 
 tasks = [mpp.convert_mpxj_task_to_sheet_info(task) for task in mpp.get_tasks_from_mpp(str(mpp_path))]
 
