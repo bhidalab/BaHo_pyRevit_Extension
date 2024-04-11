@@ -9,7 +9,7 @@ import re
 import json
 import sys
 sys.path.append(r"C:\ProgramData\pyrevit_4.8.14\site-packages")
-import pathlib2
+import pathlib
 from pprint import pprint
 
 from System.Diagnostics import Stopwatch
@@ -88,10 +88,10 @@ def write_markdown_script_documentation(script_infos_map, markdown):
 stopwatch = Stopwatch()
 stopwatch.Start()
 
-D_TEMP = pathlib2.Path("d:/tmp")
+D_TEMP = pathlib.Path("d:/tmp")
 
-THIS_FILE = pathlib2.Path(__file__)
-PYREVIT_REPO_ROOT = pathlib2.Path(__file__).parent.parent.parent
+THIS_FILE = pathlib.Path(__file__)
+PYREVIT_REPO_ROOT = pathlib.Path(__file__).parent.parent.parent
 
 baho_ext_bh_tab = PYREVIT_REPO_ROOT / "baho.extension" / "pyRevit_BH.tab"
 
