@@ -1,6 +1,7 @@
 """
 ensures availability of mpxj .net library.
 """
+import os # fix for pyrevit engine 2.7.x
 import shutil
 import pathlib
 import zipfile
