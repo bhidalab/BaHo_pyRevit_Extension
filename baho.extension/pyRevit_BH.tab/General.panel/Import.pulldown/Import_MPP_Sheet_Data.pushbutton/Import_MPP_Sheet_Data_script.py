@@ -67,7 +67,10 @@ def parse_project_info_param_config(param_name):
     if __shiftclick__:  # noqa: F821
         file_menu = True
     if file_menu:
-        config_txt = forms.pick_file()
+        config_txt = forms.pick_file(
+            file_ext="mpp",
+            files_filter="MPP (*.mpp)|*.mpp",
+        )
     if config_txt:
         mpp_node = pathlib.Path(config_txt)
         if not mpp_node.exists():
