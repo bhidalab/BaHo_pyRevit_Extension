@@ -14,6 +14,7 @@ example config: "d:\tmp\plan_4.0"
 * or this button run with shift-click, which provides an
  open file dialog.
 """
+import os # fix for pyrevit engine 2.7.x
 import pathlib
 import sys
 
