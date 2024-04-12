@@ -17,6 +17,7 @@ example config: "d:\tmp\plan_4.0"
  open file dialog.
 """
 import collections
+import os # fix for pyrevit engine 2.7.x
 import pathlib
 
 from Autodesk.Revit.DB import BuiltInCategory, ElementId
