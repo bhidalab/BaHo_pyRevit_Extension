@@ -8,9 +8,10 @@ Contains the partial reimplementation of C# addon "Plan 4.0".
 Tested on and written for
 * rvt 2023, 2024
 * [pyRevit](http://gitlab.ideas.baho.ch/bim/revit/pyrevit/pyrevit) 4.8.14 <br>
-  recommended install location: `c:\programdata\pyrevit_4.8.14`
+  * recommended install location: `c:\programdata\pyrevit_4.8.14`
+  * recommended ironpython engine: `IPY340PR`
 * [mpxj](https://www.mpxj.org/) library 12.7.0 <br>
-  not provided in this repo, use bundled pyRevit `BaHo_pyRevit_Extension / info / Bootstrap_mpxj`
+  not provided in this repo, use bundled installer at: pyRevit `BaHo_pyRevit_Extension / info / Bootstrap_mpxj`
 
 ## Installation
 * Basler & Hofmann users: <br>
@@ -18,11 +19,12 @@ Tested on and written for
 * external users:
   * install: rvt 2023 or 2024
   * install: [pyRevit](http://gitlab.ideas.baho.ch/bim/revit/pyrevit/pyrevit) 4.8.14
-    recommended install location: `c:\programdata\pyrevit_4.8.14`
+    * recommended install location: `c:\programdata\pyrevit_4.8.14`
+    * recommended ironpython engine: `IPY340PR`
   * download and unpack BaHo_pyRevit_Extension to: `c:\programdata\baho_pyrevit_extension`
   * in `pyRevit / Settings` add BaHo_pyRevit_Extension under `Custom Extension Directories` <br>
     preferred location for BaHo_pyRevit_Extension: `c:\programdata\baho_pyrevit_extension`
-  * run the bootstrap script `info / Bootstrap_mpxj` to supply the required [mpxj](https://www.mpxj.org/) library
+  * run the bootstrap installer script `info / Bootstrap_mpxj` to supply the required [mpxj](https://www.mpxj.org/) library
 
 ## Development
 ### Tooling
